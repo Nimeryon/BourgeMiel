@@ -4,6 +4,8 @@ BEGIN TRAN
 
 -- zone, monstre, joueurs, item, drop, equipments, rareté, biome
 
+CREATE DATABASE BourgeMiel;
+
 CREATE TABLE "Rarities"
 (RaritityId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 RaritityName VARCHAR(50) NOT NULL,)
