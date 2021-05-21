@@ -1,0 +1,67 @@
+USE BourgeMiel
+
+BEGIN TRAN
+
+-- zone, monstre, joueurs, item, drop, equipments, rareté, biome
+
+CREATE TABLE "Rarities"
+(RaritityId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+RaritityName VARCHAR(50) NOT NULL,)
+
+CREATE TABLE "Biomes"
+(BiomeId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+BiomeName VARCHAR(50) NOT NULL,)
+
+CREATE TABLE Zones
+(ZoneId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+ZoneName VARCHAR(50) NOT NULL,
+ZoneLevel INT NOT NULL,
+ZoneSize FLOAT NOT NULL,
+BiomeId INT NOT NULL,
+FOREIGN KEY(BiomeId) REFERENCES "Biomes"(BiomeId),)
+
+CREATE TABLE "Monsters"
+(MonsterId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+MonsterName VARCHAR(50) NOT NULL,
+MonsterLevel INT NOT NULL,
+MonsterZoneId INT NOT NULL,
+BiomeId INT NULL,
+FOREIGN KEY(BiomeId) REFERENCES "Biomes"(BiomeId),
+MonsterDrop INT NOT NULL,
+MonsterHealth FLOAT NOT NULL,
+MonsterDamage FLOAT NOT NULL,
+MonsterArmor FLOAT NULL)
+
+CREATE TABLE "Players"
+(PlayerId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+PlayerName VARCHAR(50) NOT NULL,
+PlayerLevel INT NOT NULL,
+PlayerHealth FLOAT NOT NULL,
+PlayerDamage FLOAT NOT NULL,
+PlayerArmor FLOAT NULL)
+
+CREATE TABLE "Items"
+(ItemId INT NOT NULL IDENTITY(1,10) PRIMARY KEY,
+ItemName VARCHAR(50) NOT NULL,
+ItemLevel INT NULL,
+RaritityId INT NOT NULL,
+FOREIGN KEY(RaritityId) REFERENCES "Rarities"(RaritityId),
+ItemHealthStat FLOAT NOT NULL,
+ItemDamageStat FLOAT NOT NULL,
+ItemArmorStat FLOAT NULL)
+
+CREATE TABLE "Drop"
+(DropId INT NOT NULL IDENTITY(1,10) PRIMARY KEY,
+ItemId INT NULL,
+FOREIGN KEY(ItemId) REFERENCES "Items"(ItemId),
+MonsterId INT NOT NULL,
+FOREIGN KEY(MonsterId) REFERENCES "Monsters"(MonsterId))
+
+CREATE TABLE "Equipments"
+(EquipmentId INT NOT NULL IDENTITY(10,100) PRIMARY KEY,
+PlayerId INT NOT NULL,
+FOREIGN KEY(PlayerId) REFERENCES "Players"(PlayerId),
+ItemId INT NOT NULL,
+FOREIGN KEY(ItemId) REFERENCES "Items"(ItemId))
+
+ROLLBACK TRAN
