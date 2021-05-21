@@ -4,7 +4,7 @@ IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'BourgeMiel')
   BEGIN
     CREATE DATABASE BourgeMiel
     END
-    
+
 GO
 	USE BourgeMiel
 GO
@@ -17,14 +17,14 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Rarities' and xtype='U')
 BEGIN
     CREATE TABLE "Rarities"
 	(RaritityId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	RaritityName VARCHAR(50) NOT NULL,)
+	RaritityName VARCHAR(50) NOT NULL)
 END
 
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Biomes' and xtype='U')
 BEGIN
     CREATE TABLE "Biomes"
 	(BiomeId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
-	BiomeName VARCHAR(50) NOT NULL,)
+	BiomeName VARCHAR(50) NOT NULL)
 END
 
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Zones' and xtype='U')
@@ -35,7 +35,7 @@ BEGIN
 	ZoneLevel INT NOT NULL,
 	ZoneSize FLOAT NOT NULL,
 	BiomeId INT NOT NULL,
-	FOREIGN KEY(BiomeId) REFERENCES "Biomes"(BiomeId),)
+	FOREIGN KEY(BiomeId) REFERENCES "Biomes"(BiomeId))
 END
 
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Monsters' and xtype='U')
