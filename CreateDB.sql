@@ -47,7 +47,6 @@ BEGIN
 	MonsterZoneId INT NOT NULL,
 	BiomeId INT NULL,
 	FOREIGN KEY(BiomeId) REFERENCES "Biomes"(BiomeId),
-	MonsterDrop INT NOT NULL,
 	MonsterHealth FLOAT NOT NULL,
 	MonsterDamage FLOAT NOT NULL,
 	MonsterArmor FLOAT NULL)
