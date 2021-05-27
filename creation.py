@@ -385,9 +385,12 @@ with open("Inserts.sql", "w", encoding="utf-8") as scriptBdd:
             )
         )
         scriptBdd.write("\n")
+        itemList = []
         for _ in range(random.randint(0, 15)):
-            scriptBdd.write(
-                generate_data("Equipments", random.randint(1, nbrItem) * 10, nbrPlayer)
-            )
+            itemId = random.randint(1, nbrItem) * 10
+            while itemId in itemList:
+                itemId = random.randint(1, nbrItem) * 10
+            itemList.append(itemId)
+            scriptBdd.write(generate_data("Equipments", itemId, nbrPlayer))
             scriptBdd.write("\n")
         nbrPlayer += 1
