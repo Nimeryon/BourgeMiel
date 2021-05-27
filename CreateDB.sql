@@ -89,10 +89,10 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Equipments' and xtype='U')
 BEGIN
 	CREATE TABLE "Equipments"
 	(EquipmentId INT NOT NULL IDENTITY(100,100) PRIMARY KEY,
-	PlayerId INT NOT NULL,
 	ItemId INT NOT NULL,
-	FOREIGN KEY(ItemId) REFERENCES "Items"(ItemId)),
-	FOREIGN KEY(PlayerId) REFERENCES "Players"(PlayerId)
+	FOREIGN KEY(ItemId) REFERENCES "Items"(ItemId),
+	PlayerId INT NOT NULL,
+	FOREIGN KEY(PlayerId) REFERENCES "Players"(PlayerId))
 END
 
 COMMIT TRAN
