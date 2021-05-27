@@ -308,6 +308,8 @@ items = [
 
 fake = Faker(["fr_FR"])
 with open("Inserts.sql", "w", encoding="utf-8") as scriptBdd:
+    scriptBdd.write("GO USE BourgeMiel GO")
+    scriptBdd.write("\n")
     id = 1
     for _, rarity in enumerate(rarities):
         scriptBdd.write(generate_data("Rarities", stringify(rarity)))
