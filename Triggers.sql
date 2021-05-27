@@ -2,7 +2,7 @@ GO
 	USE BourgeMiel
 GO
 
--- level up
+-- 1 level up
 CREATE OR ALTER TRIGGER LevelUp
 ON Players
 AFTER UPDATE
@@ -14,3 +14,24 @@ BEGIN
 		PlayerDamage = PlayerDamage +20
         WHERE PlayerLevel = (SELECT i.PlayerLevel FROM INSERTED i WHERE PlayerLevel < 100)
 END
+
+GO 
+	USE BourgeMiel
+GO
+
+-- 2
+
+
+GO 
+	USE BourgeMiel
+GO
+
+-- 3
+
+
+
+GO 
+	USE BourgeMiel
+GO
+
+-- 4
