@@ -22,11 +22,14 @@ GO
 -- 2 Delete player equipment on delete
 CREATE OR ALTER TRIGGER DeletePlayers
 ON Players
-AFTER DELETE
+INSTEAD OF DELETE
 AS
 BEGIN
 	DELETE FROM Equipments
-	WHERE PlayerId IN (SELECT PlayerId FROM inserted)
+	WHERE PlayerId IN (SELECT PlayerId FROM deleted)
+	
+	DELETE FROM Players
+	WHERE PlayerId IN (SELECT PlayerId FROM deleted)
 END
 
 GO 
