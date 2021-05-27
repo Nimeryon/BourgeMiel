@@ -2,12 +2,47 @@ GO
     USE BourgeMiel
 GO
 
-CREATE OR ALTER PROCEDURE PlayerStats(@PlayerID INT)
+CREATE OR ALTER FUNCTION PlayerHealth(@PlayerID INT)
+RETURNS INT
 AS
 BEGIN
-	SELECT p.PlayerHealth + SUM(i.ItemHealthStat) as Health, p.PlayerArmor + SUM(i.ItemArmorStat) as Armor, p.PlayerDamage + SUM(i.ItemDamageStat) as Attack  FROM Players as p
+	DECLARE @Health INT
+
+	SELECT @Health = p.PlayerHealth + SUM(i.ItemHealthStat) FROM Players as p
 	INNER JOIN Equipments as e ON e.PlayerId = p.PlayerId
 	INNER JOIN Items as i ON i.ItemId = e.ItemId
 	WHERE p.PlayerId = @PlayerID
 	GROUP BY p.PlayerHealth, p.PlayerArmor, p.PlayerDamage
+
+    RETURN @Health;
+END;
+
+CREATE OR ALTER FUNCTION PlayerArmor(@PlayerID INT)
+RETURNS INT
+AS
+BEGIN
+	DECLARE @Armor INT
+
+	SELECT @Armor = p.PlayerArmor + SUM(i.ItemArmorStat) FROM Players as p
+	INNER JOIN Equipments as e ON e.PlayerId = p.PlayerId
+	INNER JOIN Items as i ON i.ItemId = e.ItemId
+	WHERE p.PlayerId = @PlayerID
+	GROUP BY p.PlayerArmor
+
+    RETURN @Armor;
+END;
+
+CREATE OR ALTER FUNCTION PlayerAttack(@PlayerID INT)
+RETURNS INT
+AS
+BEGIN
+	DECLARE @Attack INT
+
+	SELECT @Attack = p.PlayerDamage + SUM(i.ItemDamageStat) FROM Players as p
+	INNER JOIN Equipments as e ON e.PlayerId = p.PlayerId
+	INNER JOIN Items as i ON i.ItemId = e.ItemId
+	WHERE p.PlayerId = @PlayerID
+	GROUP BY p.PlayerDamage
+
+    RETURN @Attack;
 END;
