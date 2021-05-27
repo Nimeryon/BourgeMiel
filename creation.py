@@ -351,6 +351,8 @@ with open("Inserts.sql", "w", encoding="utf-8") as scriptBdd:
         scriptBdd.write("\n")
         for _ in range(random.randint(5, 20)):
             monstreLevel = level + random.randint(-5, 5)
+            if monstreLevel < 1:
+                monstreLevel = 1
             scriptBdd.write(
                 generate_data(
                     "Monsters",
