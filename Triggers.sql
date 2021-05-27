@@ -19,8 +19,15 @@ GO
 	USE BourgeMiel
 GO
 
--- 2
-
+-- 2 Delete player equipment on delete
+CREATE OR ALTER TRIGGER DeletePlayers
+ON Players
+AFTER DELETE
+AS
+BEGIN
+	DELETE FROM Equipments
+	WHERE PlayerId IN (SELECT PlayerId FROM inserted)
+END
 
 GO 
 	USE BourgeMiel
