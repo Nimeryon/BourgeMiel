@@ -2,8 +2,8 @@ GO
 	USE BourgeMiel
 GO
 
-CREATE OR ALTER FUNCTION FightWinner (@pvP INT, @arP INT, @dmgP INT, @pvM INT, @arM INT, @dmgM INT)
+CREATE OR ALTER FUNCTION DamageCalc (@armor INT, @damage INT)
 RETURNS INT AS
 BEGIN
-    RETURN ((@arP - @dmgM) - @pvP) - ((@arM - @dmgP) - @pvM);
+    RETURN @damage - (@armor/100);
 END;
