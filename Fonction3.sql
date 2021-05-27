@@ -17,6 +17,10 @@ BEGIN
     RETURN @Health;
 END;
 
+GO
+    USE BourgeMiel
+GO
+
 CREATE OR ALTER FUNCTION PlayerArmor(@PlayerID INT)
 RETURNS INT
 AS
@@ -31,6 +35,10 @@ BEGIN
 
     RETURN @Armor;
 END;
+
+GO
+    USE BourgeMiel
+GO
 
 CREATE OR ALTER FUNCTION PlayerAttack(@PlayerID INT)
 RETURNS INT
