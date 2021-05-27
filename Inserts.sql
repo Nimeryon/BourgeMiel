@@ -1,3 +1,7 @@
+GO
+	USE BourgeMiel
+GO
+
 INSERT INTO Rarities VALUES ('Commun')
 INSERT INTO Items VALUES ('Pain', 73, 1, 13, 116, 84)
 INSERT INTO Items VALUES ('Pomme', 13, 1, 163, 29, 163)
