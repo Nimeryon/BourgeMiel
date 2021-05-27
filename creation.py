@@ -1,10 +1,14 @@
+import math
+from os import stat
 from faker import Faker
 from math import floor
 import random
+import time
 
 nbrMonstre = 1
 nbrItem = 1
 nbrPlayer = 1
+levelItems = []
 
 
 def generate_data(table, *args):
@@ -13,6 +17,19 @@ def generate_data(table, *args):
 
 def stringify(text):
     return f"'{text}'"
+
+
+def getRarityLevel(rarity):
+    if rarity == "Commun":
+        return random.randint(1, 20)
+    elif rarity == "Rare":
+        return random.randint(10, 40)
+    elif rarity == "Epique":
+        return random.randint(20, 60)
+    elif rarity == "Légendaire":
+        return random.randint(30, 80)
+    elif rarity == "Unique":
+        return random.randint(40, 100)
 
 
 biomes = [
@@ -307,6 +324,7 @@ items = [
 ]
 
 fake = Faker(["fr_FR"])
+start = time.time()
 with open("Inserts.sql", "w", encoding="utf-8") as scriptBdd:
     scriptBdd.write("GO\nUSE BourgeMiel\nGO")
     scriptBdd.write("\n")
@@ -315,17 +333,28 @@ with open("Inserts.sql", "w", encoding="utf-8") as scriptBdd:
         scriptBdd.write(generate_data("Rarities", stringify(rarity)))
         scriptBdd.write("\n")
         for _, item in enumerate(items):
+            level = getRarityLevel(rarity)
             scriptBdd.write(
                 generate_data(
                     "Items",
                     stringify(item),
-                    random.randint(1, 100),
+                    level,
                     id,
-                    random.randint(1, 250) * id,
-                    random.randint(1, 250) * id,
-                    random.randint(1, 250) * id,
+                    math.floor(
+                        (getRarityLevel(rarity) * (3 / ((len(rarities) + 1) - id)))
+                    )
+                    + (2 * level),
+                    math.floor(
+                        (getRarityLevel(rarity) * (3 / ((len(rarities) + 1) - id)))
+                    )
+                    + (2 * level),
+                    math.floor(
+                        (getRarityLevel(rarity) * (3 / ((len(rarities) + 1) - id)))
+                    )
+                    + (2 * level),
                 )
             )
+            levelItems.append(level)
             scriptBdd.write("\n")
             nbrItem += 1
         id += 1
@@ -393,11 +422,19 @@ with open("Inserts.sql", "w", encoding="utf-8") as scriptBdd:
         )
         scriptBdd.write("\n")
         itemList = []
-        for _ in range(random.randint(0, 15)):
+
+        for _ in range(random.randint(1, 8)):
             itemId = random.randint(1, nbrItem - 1) * 10
-            while itemId in itemList:
+            counter = 0
+            while itemId in itemList or levelItems[itemId // 10 - 1] > level:
                 itemId = random.randint(1, nbrItem - 1) * 10
+                counter += 1
+                if counter > 25:
+                    break
+            if counter > 25:
+                break
             itemList.append(itemId)
             scriptBdd.write(generate_data("Equipments", itemId, nbrPlayer))
             scriptBdd.write("\n")
         nbrPlayer += 1
+print(time.time() - start)

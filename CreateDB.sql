@@ -48,7 +48,7 @@ BEGIN
 	FOREIGN KEY(ZoneId) REFERENCES "Zones"(ZoneId),
 	MonsterHealth INT NOT NULL,
 	MonsterDamage INT NOT NULL,
-	MonsterArmor INT NULL)
+	MonsterArmor INT NOT NULL)
 END
 
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Players' and xtype='U')
@@ -59,7 +59,7 @@ BEGIN
 	PlayerLevel INT NOT NULL,
 	PlayerHealth INT NOT NULL,
 	PlayerDamage INT NOT NULL,
-	PlayerArmor INT NULL)
+	PlayerArmor INT NOT NULL)
 END
 
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Items' and xtype='U')
@@ -67,7 +67,7 @@ BEGIN
 	CREATE TABLE "Items"
 	(ItemId INT NOT NULL IDENTITY(10,10) PRIMARY KEY,
 	ItemName VARCHAR(50) NOT NULL,
-	ItemLevel INT NULL,
+	ItemLevel INT NOT NULL,
 	RaritityId INT NOT NULL,
 	FOREIGN KEY(RaritityId) REFERENCES "Rarities"(RaritityId),
 	ItemHealthStat INT NOT NULL,
@@ -79,7 +79,7 @@ IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Drops' and xtype='U')
 BEGIN
 	CREATE TABLE "Drops"
 	(DropId INT NOT NULL IDENTITY(10,10) PRIMARY KEY,
-	ItemId INT NULL,
+	ItemId INT NOT NULL,
 	FOREIGN KEY(ItemId) REFERENCES "Items"(ItemId),
 	MonsterId INT NOT NULL,
 	FOREIGN KEY(MonsterId) REFERENCES "Monsters"(MonsterId))

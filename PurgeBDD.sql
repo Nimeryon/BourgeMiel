@@ -1,0 +1,5 @@
+GO
+USE master
+GO
+
+DROP DATABASE IF EXISTS BourgeMiel
