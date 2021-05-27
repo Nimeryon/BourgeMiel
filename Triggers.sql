@@ -14,5 +14,3 @@ BEGIN
 		PlayerDamage = PlayerDamage +20
         WHERE PlayerLevel = (SELECT i.PlayerLevel FROM INSERTED i WHERE PlayerLevel < 100)
 END
-
--- 
