@@ -2,7 +2,7 @@
 
 IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'BourgeMiel')
   BEGIN
-    CREATE DATABASE BourgeMiel
+    CREATE DATABASE "BourgeMiel"
     END
 
 GO
@@ -11,7 +11,7 @@ GO
 
 BEGIN TRAN
 
--- On check si les tables existes déjà
+-- On check si les tables existes dï¿½jï¿½
 
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Rarities' and xtype='U')
 BEGIN
@@ -29,7 +29,7 @@ END
 
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Zones' and xtype='U')
 BEGIN
-    CREATE TABLE Zones
+    CREATE TABLE "Zones"
 	(ZoneId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	ZoneName VARCHAR(50) NOT NULL,
 	ZoneLevel INT NOT NULL,
@@ -44,12 +44,11 @@ BEGIN
 	(MonsterId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	MonsterName VARCHAR(50) NOT NULL,
 	MonsterLevel INT NOT NULL,
-	MonsterZoneId INT NOT NULL,
-	BiomeId INT NULL,
-	FOREIGN KEY(BiomeId) REFERENCES "Biomes"(BiomeId),
-	MonsterHealth FLOAT NOT NULL,
-	MonsterDamage FLOAT NOT NULL,
-	MonsterArmor FLOAT NULL)
+	ZoneId INT NOT NULL,
+	FOREIGN KEY(ZoneId) REFERENCES "Zones"(ZoneId),
+	MonsterHealth INT NOT NULL,
+	MonsterDamage INT NOT NULL,
+	MonsterArmor INT NULL)
 END
 
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Players' and xtype='U')
@@ -58,28 +57,28 @@ BEGIN
 	(PlayerId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	PlayerName VARCHAR(50) NOT NULL,
 	PlayerLevel INT NOT NULL,
-	PlayerHealth FLOAT NOT NULL,
-	PlayerDamage FLOAT NOT NULL,
-	PlayerArmor FLOAT NULL)
+	PlayerHealth INT NOT NULL,
+	PlayerDamage INT NOT NULL,
+	PlayerArmor INT NULL)
 END
 
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Items' and xtype='U')
 BEGIN
 	CREATE TABLE "Items"
-	(ItemId INT NOT NULL IDENTITY(1,10) PRIMARY KEY,
+	(ItemId INT NOT NULL IDENTITY(10,10) PRIMARY KEY,
 	ItemName VARCHAR(50) NOT NULL,
 	ItemLevel INT NULL,
 	RaritityId INT NOT NULL,
 	FOREIGN KEY(RaritityId) REFERENCES "Rarities"(RaritityId),
-	ItemHealthStat FLOAT NOT NULL,
-	ItemDamageStat FLOAT NOT NULL,
-	ItemArmorStat FLOAT NULL)
+	ItemHealthStat INT NOT NULL,
+	ItemDamageStat INT NOT NULL,
+	ItemArmorStat INT NULL)
 END
 
-IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Drop' and xtype='U')
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Drops' and xtype='U')
 BEGIN
-	CREATE TABLE "Drop"
-	(DropId INT NOT NULL IDENTITY(1,10) PRIMARY KEY,
+	CREATE TABLE "Drops"
+	(DropId INT NOT NULL IDENTITY(10,10) PRIMARY KEY,
 	ItemId INT NULL,
 	FOREIGN KEY(ItemId) REFERENCES "Items"(ItemId),
 	MonsterId INT NOT NULL,
@@ -89,11 +88,11 @@ END
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Equipments' and xtype='U')
 BEGIN
 	CREATE TABLE "Equipments"
-	(EquipmentId INT NOT NULL IDENTITY(10,100) PRIMARY KEY,
+	(EquipmentId INT NOT NULL IDENTITY(100,100) PRIMARY KEY,
 	PlayerId INT NOT NULL,
-	FOREIGN KEY(PlayerId) REFERENCES "Players"(PlayerId),
 	ItemId INT NOT NULL,
-	FOREIGN KEY(ItemId) REFERENCES "Items"(ItemId))
+	FOREIGN KEY(ItemId) REFERENCES "Items"(ItemId)),
+	FOREIGN KEY(PlayerId) REFERENCES "Players"(PlayerId)
 END
 
 COMMIT TRAN
