@@ -23,5 +23,3 @@ BEGIN
 END
 CLOSE ForestBiomes
 DEALLOCATE ForestBiomes
-
---SELECT b.BiomeName FROM Biomes b WHERE UPPER(b.BiomeName) LIKE '%FOREST%'
